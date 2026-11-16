@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titulo %}Confirmar exclusão{% endblock %}
+{% block conteudo %}
+<div class="card form">
+  <h1>Excluir “{{ object }}”?</h1>
+  <p>Essa ação não pode ser desfeita.{% if object.argumentos %} Todos os argumentos e comentários ligados a ele também serão apagados.{% elif object.comentarios %} Os comentários deste argumento também serão apagados.{% endif %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="acoes">
+      <button class="btn btn-critica" type="submit">Sim, excluir</button>
+      <a href="{{ object.get_absolute_url }}">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

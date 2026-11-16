@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block titulo %}{{ argumento.titulo }}{% endblock %}
+{% block conteudo %}
+<p><a href="{% url 'debate:argumento_lista' %}">← Voltar para argumentos</a></p>
+
+<article class="card arg arg-{{ argumento.posicao }} detalhe">
+  <div class="arg-meta">
+    <span class="selo selo-{{ argumento.posicao }}">{{ argumento.get_posicao_display }}</span>
+    <a href="{{ argumento.politico.get_absolute_url }}">{{ argumento.politico.nome }}</a> · {{ argumento.tema }}
+  </div>
+  <h1>{{ argumento.titulo }}</h1>
+  <div class="texto">{{ argumento.texto|linebreaks }}</div>
+  {% if argumento.fonte %}<p class="fonte">Fonte: <a href="{{ argumento.fonte }}" target="_blank" rel="noopener">{{ argumento.fonte }}</a></p>{% endif %}
+  <div class="arg-rodape">
+    por <strong>{{ argumento.autor }}</strong> · criado em {{ argumento.criado_em|date:"d/m/Y H:i" }}
+    {% if argumento.atualizado_em|date:"YmdHi" != argumento.criado_em|date:"YmdHi" %} · editado em {{ argumento.atualizado_em|date:"d/m/Y H:i" }}{% endif %}
+  </div>
+  <div class="acoes">
+    <a class="btn" href="{% url 'debate:argumento_editar' argumento.pk %}">Editar</a>
+    <a class="btn btn-critica" href="{% url 'debate:argumento_excluir' argumento.pk %}">Excluir</a>
+  </div>
+</article>
+
+<section id="comentarios">
+  <h2 class="secao">Comentários ({{ comentarios|length }})</h2>
+  {% for c in comentarios %}
+    <div class="card comentario {% if c.concorda %}concorda{% else %}discorda{% endif %}">
+      <div class="arg-meta">
+        <strong>{{ c.autor }}</strong>
+        <span class="selo {% if c.concorda %}selo-D{% else %}selo-C{% endif %}">{% if c.concorda %}Concorda{% else %}Discorda{% endif %}</span>
+        <span>{{ c.criado_em|date:"d/m/Y H:i" }}</span>
+        <form method="post" action="{% url 'debate:comentario_excluir' c.pk %}" class="inline">
+          {% csrf_token %}<button type="submit" class="link perigo">remover</button>
+        </form>
+      </div>
+      {{ c.texto|linebreaks }}
+    </div>
+  {% empty %}
+    <p class="vazio">Ninguém comentou ainda. Seja o primeiro.</p>
+  {% endfor %}
+
+  <form method="post" class="card form">
+    <h3>Deixe seu comentário</h3>
+    {% csrf_token %}
+    {% include "debate/_campos.html" %}
+    <button class="btn" type="submit">Publicar comentário</button>
+  </form>
+</section>
+{% endblock %}

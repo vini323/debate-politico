@@ -1,0 +1,12 @@
+<article class="card arg arg-{{ a.posicao }}">
+  <div class="arg-meta">
+    <span class="selo selo-{{ a.posicao }}">{{ a.get_posicao_display }}</span>
+    <span>{{ a.politico.nome }}</span> · <span>{{ a.tema }}</span>
+  </div>
+  <h3><a href="{{ a.get_absolute_url }}">{{ a.titulo }}</a></h3>
+  <p>{{ a.texto|truncatewords:30 }}</p>
+  <div class="arg-rodape">
+    por <strong>{{ a.autor }}</strong> · {{ a.criado_em|date:"d/m/Y H:i" }}
+    {% if a.n_comentarios is not None %} · 💬 {{ a.n_comentarios }}{% endif %}
+  </div>
+</article>

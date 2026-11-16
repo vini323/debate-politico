@@ -1,0 +1,38 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Debate Político{% endblock %} · Debate Político</title>
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body>
+  <header class="topo">
+    <div class="container topo-inner">
+      <a class="marca" href="{% url 'debate:inicio' %}">
+        <span class="marca-d">Debate</span><span class="marca-p">Político</span>
+      </a>
+      <nav>
+        <a href="{% url 'debate:inicio' %}">Início</a>
+        <a href="{% url 'debate:argumento_lista' %}">Argumentos</a>
+        <a href="{% url 'debate:politico_lista' %}">Políticos</a>
+        <a href="{% url 'admin:index' %}">Admin</a>
+        <a class="btn btn-pequeno" href="{% url 'debate:argumento_novo' %}">+ Novo argumento</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      {% for m in messages %}<div class="alerta alerta-{{ m.tags }}">{{ m }}</div>{% endfor %}
+    {% endif %}
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="rodape">
+    <div class="container">
+      Trabalho final — Desenvolvimento Web com Python e Django · Espaço aberto para defesas e críticas, com respeito.
+    </div>
+  </footer>
+</body>
+</html>
