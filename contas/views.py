@@ -12,27 +12,23 @@ from .models import Perfil
 
 
 def cadastro(request):
-    """Cria a conta + perfil e já deixa a pessoa logada."""
+    """Cria a conta (usuário, e-mail e senha) e já deixa a pessoa logada."""
     if request.user.is_authenticated:
         return redirect("propostas:inicio")
 
     if request.method == "POST":
         form = CadastroForm(request.POST)
-        perfil_form = PerfilForm(request.POST)
-        if form.is_valid() and perfil_form.is_valid():
+        if form.is_valid():
             with transaction.atomic():
                 usuario = form.save()
-                perfil = perfil_form.save(commit=False)
-                perfil.usuario = usuario
-                perfil.save()
+                Perfil.objects.create(usuario=usuario)
             login(request, usuario)
-            messages.success(request, f"Bem-vindo(a), {usuario.first_name}! Sua conta foi criada.")
+            messages.success(request, f"Bem-vindo(a), {usuario.username}! Sua conta foi criada.")
             return redirect("propostas:inicio")
     else:
         form = CadastroForm()
-        perfil_form = PerfilForm()
 
-    return render(request, "contas/cadastro.html", {"form": form, "perfil_form": perfil_form})
+    return render(request, "contas/cadastro.html", {"form": form})
 
 
 @login_required

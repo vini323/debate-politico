@@ -6,15 +6,13 @@ from .models import Perfil
 
 
 class CadastroForm(UserCreationForm):
-    """Cria o usuário (login + senha) já com nome e e-mail."""
+    """Cadastro simples: nome de usuário, e-mail e senha."""
 
-    first_name = forms.CharField(label="Nome", max_length=150)
-    last_name = forms.CharField(label="Sobrenome", max_length=150)
     email = forms.EmailField(label="E-mail")
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "first_name", "last_name", "email")
+        fields = ("username", "email")
         labels = {"username": "Nome de usuário"}
 
     def clean_email(self):
