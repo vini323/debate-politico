@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
@@ -93,7 +94,7 @@ class PropostaDetailView(DetailView):
         return ctx
 
 
-class PropostaCreateView(SuccessMessageMixin, CreateView):
+class PropostaCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Proposta
     form_class = PropostaForm
     template_name = "propostas/proposta_form.html"
@@ -107,14 +108,14 @@ class PropostaCreateView(SuccessMessageMixin, CreateView):
         return initial
 
 
-class PropostaUpdateView(SuccessMessageMixin, UpdateView):
+class PropostaUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Proposta
     form_class = PropostaForm
     template_name = "propostas/proposta_form.html"
     success_message = "Proposta atualizada!"
 
 
-class PropostaDeleteView(DeleteView):
+class PropostaDeleteView(LoginRequiredMixin, DeleteView):
     model = Proposta
     template_name = "propostas/confirmar_exclusao.html"
     success_url = reverse_lazy("propostas:proposta_lista")
@@ -151,21 +152,21 @@ class CandidatoDetailView(DetailView):
         return ctx
 
 
-class CandidatoCreateView(SuccessMessageMixin, CreateView):
+class CandidatoCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Candidato
     form_class = CandidatoForm
     template_name = "propostas/candidato_form.html"
     success_message = "Candidato cadastrado!"
 
 
-class CandidatoUpdateView(SuccessMessageMixin, UpdateView):
+class CandidatoUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Candidato
     form_class = CandidatoForm
     template_name = "propostas/candidato_form.html"
     success_message = "Candidato atualizado!"
 
 
-class CandidatoDeleteView(DeleteView):
+class CandidatoDeleteView(LoginRequiredMixin, DeleteView):
     model = Candidato
     template_name = "propostas/confirmar_exclusao.html"
     success_url = reverse_lazy("propostas:candidato_lista")

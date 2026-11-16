@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block titulo %}Meus dados{% endblock %}
+{% block conteudo %}
+<div class="cabecalho">
+  <h1>Meus dados</h1>
+  <a href="{% url 'contas:trocar_senha' %}">🔑 Trocar senha</a>
+</div>
+
+<div class="card resumo-conta">
+  <div class="avatar">{{ user.first_name|default:user.username|first|upper }}</div>
+  <div>
+    <strong>{{ user.get_full_name|default:user.username }}</strong><br>
+    <span class="sub">@{{ user.username }} · {{ user.email|default:"sem e-mail" }}</span><br>
+    <span class="sub pequeno">Conta criada em {{ user.date_joined|date:"d/m/Y" }}{% if user.last_login %} · último acesso {{ user.last_login|date:"d/m/Y H:i" }}{% endif %}</span>
+  </div>
+</div>
+
+<form method="post" class="card form" novalidate>
+  {% csrf_token %}
+  <h3 class="grupo">Nome e e-mail</h3>
+  <div class="duas-colunas">
+    {% include "propostas/_campos.html" with form=form %}
+  </div>
+  <h3 class="grupo">Dados pessoais</h3>
+  <div class="duas-colunas">
+    {% include "propostas/_campos.html" with form=perfil_form %}
+  </div>
+  <div class="acoes">
+    <button class="btn" type="submit">Salvar alterações</button>
+  </div>
+</form>
+{% endblock %}

@@ -15,8 +15,20 @@
         <a href="{% url 'propostas:inicio' %}">Início</a>
         <a href="{% url 'propostas:proposta_lista' %}">Propostas</a>
         <a href="{% url 'propostas:candidato_lista' %}">Candidatos</a>
-        <a href="{% url 'admin:index' %}">Admin</a>
-        <a class="btn btn-claro" href="{% url 'propostas:proposta_nova' %}">+ Nova proposta</a>
+        {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+        {% if user.is_authenticated %}
+          <a class="btn btn-claro" href="{% url 'propostas:proposta_nova' %}">+ Nova proposta</a>
+          <a class="usuario" href="{% url 'contas:meus_dados' %}" title="Meus dados">
+            <span class="avatar mini">{{ user.first_name|default:user.username|first|upper }}</span>
+            {{ user.first_name|default:user.username }}
+          </a>
+          <form method="post" action="{% url 'contas:logout' %}" class="inline">
+            {% csrf_token %}<button type="submit" class="link-topo">Sair</button>
+          </form>
+        {% else %}
+          <a href="{% url 'contas:login' %}">Entrar</a>
+          <a class="btn btn-claro" href="{% url 'contas:cadastro' %}">Cadastrar</a>
+        {% endif %}
       </nav>
     </div>
   </header>

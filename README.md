@@ -9,7 +9,7 @@ Aplicação MTV (Model–Template–View) que apresenta as **propostas dos plano
 | Requisito | Onde está |
 |---|---|
 | Tema/abordagem | Vitrine e comparação das propostas dos candidatos à Presidência |
-| Mínimo de 3 models relacionados | `Candidato`, `Tema`, `Proposta` (`propostas/models.py`) |
+| Mínimo de 3 models relacionados | `Candidato`, `Tema`, `Proposta` (`propostas/models.py`) + `Perfil` (`contas/models.py`) |
 | Administração pelo painel Admin | `propostas/admin.py`: filtros, busca, propostas dentro do candidato |
 | Template de **listar** registros | `proposta_lista.html`, `candidato_lista.html` |
 | Template de **detalhes** | `proposta_detalhe.html`, `candidato_detalhe.html` |
@@ -25,6 +25,7 @@ Candidato 1 ──── N Proposta N ──── 1 Tema
 
 - `Proposta.candidato` → `ForeignKey(Candidato)`
 - `Proposta.tema` → `ForeignKey(Tema)`
+- `Perfil.usuario` → `OneToOneField(User)` (dados pessoais de cada usuário)
 
 ## Páginas
 
@@ -32,7 +33,10 @@ Candidato 1 ──── N Proposta N ──── 1 Tema
 - **Comparar por tema** (`/comparar/<id>/`): propostas dos dois candidatos em colunas
 - **Propostas**: lista com busca, filtro por candidato/tema e paginação; detalhe, criar, editar e excluir
 - **Candidatos**: lista, ficha do candidato com propostas agrupadas por tema, criar, editar e excluir
+- **Contas** (`contas/`): login, cadastro com dados pessoais, "Meus dados" (editar cadastro), trocar senha e sair
 - **Admin**: `/admin/`
+
+Criar, editar e excluir propostas/candidatos exige estar logado; visitantes podem apenas consultar.
 
 ## Como rodar (Windows)
 
