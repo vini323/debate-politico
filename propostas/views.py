@@ -17,11 +17,11 @@ class InicioView(ListView):
     context_object_name = "candidatos"
 
     def get_queryset(self):
-        return Candidato.objects.annotate(n_propostas=Count("propostas"))
+        return Candidato.objects.annotate(n_propostas=Count("propostas")).order_by("nome_urna")
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["temas"] = Tema.objects.annotate(n_propostas=Count("propostas"))
+        ctx["temas"] = Tema.objects.annotate(n_propostas=Count("propostas")).order_by("ordem", "nome")
         return ctx
 
 
@@ -132,7 +132,7 @@ class CandidatoListView(ListView):
     context_object_name = "candidatos"
 
     def get_queryset(self):
-        return Candidato.objects.annotate(n_propostas=Count("propostas"))
+        return Candidato.objects.annotate(n_propostas=Count("propostas")).order_by("nome_urna")
 
 
 class CandidatoDetailView(DetailView):
