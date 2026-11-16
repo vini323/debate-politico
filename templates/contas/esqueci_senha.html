@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}Esqueci minha senha{% endblock %}
+{% block conteudo %}
+<div class="auth">
+  <div class="card auth-card">
+    <h1>Esqueci minha senha</h1>
+    <p class="sub">Informe o e-mail da sua conta. Vamos enviar um link para você criar uma senha nova.</p>
+    <form method="post">
+      {% csrf_token %}
+      {% include "propostas/_campos.html" %}
+      <button class="btn btn-largo" type="submit">Enviar link</button>
+    </form>
+    <p class="auth-rodape"><a href="{% url 'contas:login' %}">← Voltar para o login</a></p>
+  </div>
+</div>
+{% endblock %}

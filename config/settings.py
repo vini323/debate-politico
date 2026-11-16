@@ -78,3 +78,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "contas:login"
 LOGIN_REDIRECT_URL = "propostas:inicio"
 LOGOUT_REDIRECT_URL = "propostas:inicio"
+
+# E-mail: em desenvolvimento os e-mails são salvos como arquivos na
+# pasta "emails_enviados/" do projeto (abra o arquivo .log para ver o link).
+# Para enviar de verdade, troque pelo backend SMTP e configure
+# EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD e EMAIL_USE_TLS.
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "emails_enviados"
+DEFAULT_FROM_EMAIL = "Propostas 2026 <nao-responda@propostas2026.local>"
+PASSWORD_RESET_TIMEOUT = 60 * 60 * 24  # link vale por 24 horas

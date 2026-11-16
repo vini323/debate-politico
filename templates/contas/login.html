@@ -9,6 +9,7 @@
       {% csrf_token %}
       {% include "propostas/_campos.html" %}
       <input type="hidden" name="next" value="{{ next }}">
+      <p class="esqueci"><a href="{% url 'contas:esqueci_senha' %}">Esqueci minha senha</a></p>
       <button class="btn btn-largo" type="submit">Entrar</button>
     </form>
     <p class="auth-rodape">Ainda não tem conta? <a href="{% url 'contas:cadastro' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Cadastre-se</a></p>

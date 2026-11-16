@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo %}Senha alterada{% endblock %}
+{% block conteudo %}
+<div class="auth">
+  <div class="card auth-card centro">
+    <p class="icone-grande">✅</p>
+    <h1>Senha alterada!</h1>
+    <p>Sua nova senha já está valendo.</p>
+    <a class="btn btn-largo" href="{% url 'contas:login' %}">Entrar</a>
+  </div>
+</div>
+{% endblock %}
