@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_not_required, login_required
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
@@ -11,6 +11,7 @@ from .forms import CadastroForm, DadosUsuarioForm, PerfilForm
 from .models import Perfil
 
 
+@login_not_required
 def cadastro(request):
     """Cria a conta (usuário, e-mail e senha) e já deixa a pessoa logada."""
     if request.user.is_authenticated:

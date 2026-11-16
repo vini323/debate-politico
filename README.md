@@ -36,7 +36,7 @@ Candidato 1 ──── N Proposta N ──── 1 Tema
 - **Contas** (`contas/`): login, cadastro com dados pessoais, "Meus dados" (editar cadastro), trocar senha e sair
 - **Admin**: `/admin/`
 
-Criar, editar e excluir propostas/candidatos exige estar logado; visitantes podem apenas consultar.
+Todo o site exige login (`LoginRequiredMiddleware`): quem não está logado é enviado para a tela de entrar. Só login, cadastro e “esqueci minha senha” são abertos.
 
 ## Como rodar (Windows)
 

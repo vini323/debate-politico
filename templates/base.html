@@ -10,11 +10,13 @@
 <body>
   <header class="topo">
     <div class="container topo-inner">
-      <a class="marca" href="{% url 'propostas:inicio' %}">🗳️ Propostas<span>2026</span></a>
+      <a class="marca" href="{% if user.is_authenticated %}{% url 'propostas:inicio' %}{% else %}{% url 'contas:login' %}{% endif %}">🗳️ Propostas<span>2026</span></a>
       <nav>
+        {% if user.is_authenticated %}
         <a href="{% url 'propostas:inicio' %}">Início</a>
         <a href="{% url 'propostas:proposta_lista' %}">Propostas</a>
         <a href="{% url 'propostas:candidato_lista' %}">Candidatos</a>
+        {% endif %}
         {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
         {% if user.is_authenticated %}
           <a class="btn btn-claro" href="{% url 'propostas:proposta_nova' %}">+ Nova proposta</a>
