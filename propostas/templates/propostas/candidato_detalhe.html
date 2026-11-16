@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}{{ candidato.nome_urna }}{% endblock %}
+{% block conteudo %}
+<p><a href="{% url 'propostas:candidato_lista' %}">← Candidatos</a></p>
+
+<div class="card perfil" style="--cor: {{ candidato.cor }}">
+  <div class="numero">{{ candidato.numero }}</div>
+  <div>
+    <h1>{{ candidato.nome_urna }}</h1>
+    <p class="sub">{{ candidato.nome }} · {{ candidato.partido }}</p>
+    <dl class="ficha">
+      {% if candidato.vice %}<dt>Vice</dt><dd>{{ candidato.vice }}</dd>{% endif %}
+      {% if candidato.coligacao %}<dt>Coligação</dt><dd>{{ candidato.coligacao }}</dd>{% endif %}
+      {% if candidato.titulo_plano %}<dt>Plano de governo</dt><dd>“{{ candidato.titulo_plano }}”</dd>{% endif %}
+    </dl>
+    {% if candidato.resumo %}{{ candidato.resumo|linebreaks }}{% endif %}
+    <div class="acoes">
+      {% if candidato.link_plano %}<a class="btn" href="{{ candidato.link_plano }}" target="_blank" rel="noopener">Ver plano no TSE</a>{% endif %}
+      <a href="{% url 'propostas:proposta_nova' %}?candidato={{ candidato.pk }}">+ Proposta</a> ·
+      <a href="{% url 'propostas:candidato_editar' candidato.pk %}">Editar</a> ·
+      <a class="perigo" href="{% url 'propostas:candidato_excluir' candidato.pk %}">Excluir</a>
+    </div>
+  </div>
+</div>
+
+{% for g in grupos %}
+  <h2 class="secao"><a href="{{ g.tema.get_absolute_url }}">{{ g.tema }}</a></h2>
+  <div class="grade">
+    {% for p in g.propostas %}{% include "propostas/_proposta_card.html" %}{% endfor %}
+  </div>
+{% empty %}
+  <p class="vazio">Nenhuma proposta cadastrada para este candidato.</p>
+{% endfor %}
+{% endblock %}

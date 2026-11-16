@@ -1,0 +1,5 @@
+<article class="card proposta" style="--cor: {{ p.candidato.cor }}">
+  <h3><a href="{{ p.get_absolute_url }}">{{ p.titulo }}</a></h3>
+  <p>{{ p.descricao }}</p>
+  {% if p.depende_congresso %}<span class="etiqueta">⚖️ Depende do Congresso</span>{% endif %}
+</article>

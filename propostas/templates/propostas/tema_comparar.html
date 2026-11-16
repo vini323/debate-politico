@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %}{{ tema.nome }}{% endblock %}
+{% block conteudo %}
+<nav class="abas">
+  {% for t in temas %}
+    <a href="{{ t.get_absolute_url }}" {% if t.pk == tema.pk %}class="ativa"{% endif %}>{{ t.icone }} {{ t.nome }}</a>
+  {% endfor %}
+</nav>
+
+<h1>{{ tema.icone }} {{ tema.nome }}</h1>
+{% if tema.descricao %}<p class="sub">{{ tema.descricao }}</p>{% endif %}
+
+<div class="comparacao">
+  {% for col in colunas %}
+    <section class="coluna" style="--cor: {{ col.candidato.cor }}">
+      <header class="coluna-topo">
+        <span class="numero pequeno">{{ col.candidato.numero }}</span>
+        <a href="{{ col.candidato.get_absolute_url }}">{{ col.candidato.nome_urna }}</a>
+        <small>{{ col.candidato.partido }}</small>
+      </header>
+      {% for p in col.propostas %}
+        {% include "propostas/_proposta_card.html" %}
+      {% empty %}
+        <p class="vazio">O plano não traz propostas cadastradas neste tema.</p>
+      {% endfor %}
+      <a class="adicionar" href="{% url 'propostas:proposta_nova' %}?candidato={{ col.candidato.pk }}&tema={{ tema.pk }}">+ adicionar proposta</a>
+    </section>
+  {% endfor %}
+</div>
+{% endblock %}

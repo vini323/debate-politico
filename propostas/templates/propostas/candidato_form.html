@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titulo %}{% if object %}Editar candidato{% else %}Novo candidato{% endif %}{% endblock %}
+{% block conteudo %}
+<h1>{% if object %}Editar {{ object.nome_urna }}{% else %}Novo candidato{% endif %}</h1>
+<form method="post" class="card form">
+  {% csrf_token %}
+  {% include "propostas/_campos.html" %}
+  <div class="acoes">
+    <button class="btn" type="submit">Salvar</button>
+    <a href="{% if object %}{{ object.get_absolute_url }}{% else %}{% url 'propostas:candidato_lista' %}{% endif %}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

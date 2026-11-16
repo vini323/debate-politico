@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<section class="hero">
+  <p class="sobretitulo">Eleições presidenciais 2026 · 2º turno</p>
+  <h1>O que cada candidato propôs para o Brasil</h1>
+  <p>As propostas dos planos de governo de Lula e Flávio Bolsonaro, organizadas por tema para você comparar lado a lado.</p>
+</section>
+
+<section class="candidatos">
+  {% for c in candidatos %}
+    <a class="card candidato-card" href="{{ c.get_absolute_url }}" style="--cor: {{ c.cor }}">
+      <div class="numero">{{ c.numero }}</div>
+      <div>
+        <h2>{{ c.nome_urna }}</h2>
+        <p class="sub">{{ c.partido }}{% if c.vice %} · vice: {{ c.vice }}{% endif %}</p>
+        {% if c.titulo_plano %}<p class="plano">“{{ c.titulo_plano }}”</p>{% endif %}
+        <p class="contagem"><strong>{{ c.n_propostas }}</strong> propostas cadastradas</p>
+      </div>
+    </a>
+  {% empty %}
+    <div class="card vazio">
+      Nenhum candidato cadastrado. Rode <code>python manage.py popular_dados</code>
+      ou <a href="{% url 'propostas:candidato_novo' %}">cadastre um candidato</a>.
+    </div>
+  {% endfor %}
+</section>
+
+<h2 class="secao">Compare por tema</h2>
+<div class="temas">
+  {% for t in temas %}
+    <a class="card tema-card" href="{{ t.get_absolute_url }}">
+      <span class="icone">{{ t.icone }}</span>
+      <strong>{{ t.nome }}</strong>
+      <small>{{ t.n_propostas }} proposta{{ t.n_propostas|pluralize }}</small>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}
